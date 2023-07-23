@@ -13,10 +13,10 @@ jobs:
         - name: checkout
           uses: actions/checkout@v2
 
-        - name: install node v12
+        - name: install node v16
           uses: actions/setup-node@v1
           with:
-            node-version: 12
+            node-version: 16
         
         - name: npm install
           run: npm install
