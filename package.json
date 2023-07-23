@@ -1,0 +1,16 @@
+{
+  "name": "veracode-pipeline-scan-github-action",
+  "version": "0.0.1",
+  "description": "Veracode Pipeline Scan Action",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Veracode",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/artifact": "^1.1.0",
+    "@actions/core": "^1.9.0",
+    "@actions/github": "^5.0.3"
+  }
+}
