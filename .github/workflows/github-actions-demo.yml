@@ -31,4 +31,4 @@ jobs:
           id: hello
           uses: vlam0120/metadefender-github-action@v6
           with:
-            who-to-greet: 'Mona the Octocat'
+            who_to_greet: 'Mona the Octocat'
