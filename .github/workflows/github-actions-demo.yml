@@ -29,6 +29,6 @@ jobs:
 
         - name: Hello world action step
           id: hello
-          uses: vlam0120/metadefender-github-action@v3.0
+          uses: vlam0120/metadefender-github-action
           with:
             who-to-greet: 'Mona the Octocat'
