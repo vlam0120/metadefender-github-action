@@ -20,6 +20,12 @@ jobs:
         
         - name: npm install
           run: npm install
+        
+        - name: check current folder
+          run: ls .
+          
+        - name: check node_modules
+          run: ls node_modules
 
         - name: Hello world action step
           id: hello
