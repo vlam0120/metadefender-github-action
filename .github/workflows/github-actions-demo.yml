@@ -23,15 +23,15 @@ jobs:
         
         - name: check current folder
           run: ls .
-          
-        - name: check node_modules
-          run: ls node_modules
 
         - name: Hello world action step
           id: hello
-          uses: vlam0120/metadefender-github-action@v15
+          uses: vlam0120/metadefender-github-action@v16
           with:
             scan-url: 'https://api.metadefender.com/v4/file'
             folder: ${{ github.workspace }}
             logfile: ${{ github.workspace }}/log.txt
             apikey: ${{ secrets.APIKey }}
+        
+        - name: check current folder again
+          run: ls .
