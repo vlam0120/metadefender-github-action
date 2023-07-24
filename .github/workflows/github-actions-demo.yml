@@ -29,9 +29,9 @@ jobs:
 
         - name: Hello world action step
           id: hello
-          uses: vlam0120/metadefender-github-action@v9
+          uses: vlam0120/metadefender-github-action@v10
           with:
-            scan-url: 'https://api.metadefender.com/v4//file'
+            scan-url: 'https://api.metadefender.com/v4/file'
             folder: ${{ github.workspace }}
             logfile: ${{ github.workspace }}/log.txt
             apikey: ${{ secrets.APIKey }}
