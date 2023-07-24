@@ -1,10 +1,22 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  scan-url:  # id of input
+    description: 'URL to scan with'
     required: true
-    default: 'World'
+    default: 'https://api.metadefender.com/v4//file'
+  folder:  # id of input
+    description: 'Folder to scan'
+    required: true
+    default: ''
+  logfile:  # id of input
+    description: 'Log Output'
+    required: true
+    default: ''
+  apikey:  # id of input
+    description: 'APIKey'
+    required: false
+    default: ''
 outputs:
   time: # id of output
     description: 'The time we greeted you'
