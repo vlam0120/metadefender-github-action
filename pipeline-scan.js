@@ -21,7 +21,7 @@ exports.downloadJar = function () {
 exports.runScan = function(scanCommand){  
     let commandOutput = ''
     try {
-        execSync(scanCommand)
+        commandOutput = execSync(scanCommand)
     } catch (ex){
         commandOutput = ex.stdout.toString()
     }
