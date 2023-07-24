@@ -19,11 +19,11 @@ parameters['logfile'] = logfile
 
 
 async function run (parameters){
-    //downloadJar()
+    downloadJar()
 
     core.info('Running the Pipeline Scan')
 	core.info('Scan command ' + 'java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey)
-    let scanCommandOutput = await runScan('java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey)
+    let scanCommandOutput = await runScan('java -jar opswat-0.0.1-SNAPSHOT.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey)
 
     core.info('Pipeline Scan Output')
     core.info(scanCommandOutput)
