@@ -50,6 +50,7 @@ async function run(){
         core.info("=== Command run output ===")
         core.info(scanCommandOutput)
         const allFileContents = readFileSync(logfile, 'utf-8')
+        core.info("All file content \n" + allFileContents)
         var lastLine = ''
         allFileContents.split(/\r?\n/).forEach(line =>  {
             lastLine = line;
