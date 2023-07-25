@@ -1,34 +1,73 @@
 const { readFileSync, existsSync} = require('fs');
 const core = require('@actions/core')
-const { downloadJar, runScan} = require('./pipeline-scan')
+const { exec, execSync, spawn } = require('child_process');
 
 // get input params
 var parameters = {}
 
+//scanURL = "https://api.metadefender.com/v4/file"
+//apikey = ""
+//folder = "C:\\Exclude\\Test"
+//logfile = "C:\\Test\\metadefender.log"
+//failBuild = 1
+
+
 const scanURL = core.getInput('scan-url', {required: true} );
-parameters['scan-url'] = scanURL
+parameters['-url'] = scanURL
 
 const apikey = core.getInput('apikey', {required: false} );
-parameters['apikey'] = apikey
+parameters['-k'] = apikey
 
 const folder = core.getInput('folder', {required: true} );
-parameters['folder'] = folder
+parameters['-f'] = folder
 
-const logfile = core.getInput('logfile', {required: true} );
-parameters['logfile'] = logfile
+const logfile = core.getInput('log-file', {required: true} );
+parameters['-l'] = logfile
+
+const failBuild = core.getInput('fail-build', {required: true} );
 
 
-async function run (parameters){
-    //downloadJar()
 
-    core.info('Running the Pipeline Scan')
-	core.info('Scan command ' + 'java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey)
-    let scanCommandOutput = await runScan('java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey)
-
-    core.info('Pipeline Scan Output')
-    core.info(scanCommandOutput)
-    core.setFailed(scanCommandOutput)
-	core.setOutput("time", "1984");
+function runScan(scanCommand){  
+    var commandOutput = ''
+    try {
+        commandOutput = execSync(scanCommand)
+    } catch (ex){
+        commandOutput = ex.stdout.toString()
+    }
+    return commandOutput
 }
 
-run(parameters)
+async function run(){
+    core.info('Running the Pipeline Scan')
+    var scanCommand = 'java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey
+	core.info(scanCommand)
+    
+    var scanCommandOutput = ''
+    var foundIssue = false
+    try {
+        scanCommandOutput = await runScan(scanCommand)
+        core.info("=== Command run output ===")
+        core.info(scanCommandOutput)
+        const allFileContents = readFileSync(logfile, 'utf-8')
+        var lastLine = ''
+        allFileContents.split(/\r?\n/).forEach(line =>  {
+            lastLine = line;
+        });
+        if(lastLine === '' || lastLine.includes("[ERROR]")) foundIssue = true       
+
+    } catch (ex){
+        core.info(ex)
+        foundIssue = true
+    }
+    //core.info(scanCommandOutput)
+    if (foundIssue) {
+        if(failBuild == 1) {
+            core.setFailed("Found an issue during the scan. Please check the above log for more details")   
+        } else {
+            core.console.warn("Found an issue during the scan. Please check the above log for more details")
+        }
+    }
+}
+
+run()

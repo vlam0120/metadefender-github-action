@@ -9,7 +9,7 @@ inputs:
     description: 'Folder to scan'
     required: true
     default: ''
-  logfile:  # id of input
+  log-file:  # id of input
     description: 'Log Output'
     required: true
     default: ''
@@ -17,6 +17,10 @@ inputs:
     description: 'APIKey'
     required: false
     default: ''
+  fail-build:  # id of input
+    description: 'Failed the build if found some issue'
+    required: false
+    default: 1
 outputs:
   time: # id of output
     description: 'The time we greeted you'
