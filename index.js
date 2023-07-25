@@ -2,14 +2,14 @@ const { readFileSync, existsSync} = require('fs');
 const core = require('@actions/core')
 const { exec, execSync, spawn } = require('child_process');
 
-// get input params
 var parameters = {}
-
-//scanURL = "https://api.metadefender.com/v4/file"
-//apikey = ""
-//folder = "C:\\Exclude\\Test"
-//logfile = "C:\\Test\\metadefender.log"
-//failBuild = 1
+/*
+scanURL = "https://api.metadefender.com/v4/file"
+apikey = ""
+folder = "C:\\Exclude\\Test"
+logfile = "C:\\Test\\metadefender.log"
+failBuild = 1
+*/
 
 
 const scanURL = core.getInput('scan-url', {required: true} );
@@ -25,8 +25,6 @@ const logfile = core.getInput('log-file', {required: true} );
 parameters['-l'] = logfile
 
 const failBuild = core.getInput('fail-build', {required: true} );
-
-
 
 function runScan(scanCommand){  
     var commandOutput = ''
@@ -50,11 +48,12 @@ async function run(){
         core.info("=== Command run output ===")
         core.info(scanCommandOutput)
         const allFileContents = readFileSync(logfile, 'utf-8')
-        core.info("-All file content -\n" + allFileContents)
+        core.info("- All file content -\n" + allFileContents)
         var lastLine = ''
         allFileContents.split(/\r?\n/).forEach(line =>  {
             lastLine = line;
         });
+        //core.info("Last line " + lastLine)
         if(lastLine === '' || lastLine.includes("[ERROR]")) foundIssue = true       
 
     } catch (ex){
