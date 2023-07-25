@@ -1,6 +1,7 @@
 const { readFileSync, existsSync} = require('fs');
 const core = require('@actions/core')
 const { exec, execSync, spawn } = require('child_process');
+const github = require('@actions/github')
 
 var parameters = {}
 /*
@@ -53,19 +54,34 @@ async function run(){
         allFileContents.split(/\r?\n/).forEach(line =>  {
             lastLine = line;
         });
-        //core.info("Last line " + lastLine)
         if(lastLine === '' || lastLine.includes("[ERROR]")) foundIssue = true       
 
     } catch (ex){
         core.info(ex)
         foundIssue = true
     }
-    //core.info(scanCommandOutput)
+    
     if (foundIssue) {
+        //Check if it is a pull request
+        var github_token = core.getInput('github-token');
+        var context = github.context;
+        if (context.payload.pull_request == null) {
+            core.info('No pull request found.');
+        }
+        var pull_request_number = context.payload.pull_request.number;
+
+        const octokit = new github.GitHub(github_token);
+        const new_comment = octokit.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: pull_request_number,
+            body: "Found an issue during the scan. Please check the github action log for more details"
+        });
+
         if(failBuild == 1) {
             core.setFailed("Found an issue during the scan. Please check the above log for more details")   
         } else {
-            core.console.warn("Found an issue during the scan. Please check the above log for more details")
+            core.info("Found an issue during the scan. Please check the above log for more details")
         }
     }
 }

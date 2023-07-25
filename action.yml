@@ -21,6 +21,10 @@ inputs:
     description: 'Failed the build if found some issue'
     required: false
     default: 1
+  github-token:  # id of input
+    description: 'To comment to a PR'
+    required: false
+    default: 1     
 outputs:
   time: # id of output
     description: 'The time we greeted you'
