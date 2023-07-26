@@ -29,9 +29,10 @@ jobs:
           uses: vlam0120/metadefender-github-action@v16
           with:
             scan-url: 'https://api.metadefender.com/v4/file'
-            folder: ${{ github.workspace }}
+            scan-path: ${{ github.workspace }}
             log-file: ${{ github.workspace }}/log.txt
             apikey: ${{ secrets.APIKey }}
+            show-blocked-file-only: 0
             fail-build: 1
         
         - name: check current folder again

@@ -1,27 +1,35 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  scan-url:  # id of input
+  scan-url:  
     description: 'URL to scan with'
     required: true
     default: 'https://api.metadefender.com/v4//file'
-  folder:  # id of input
-    description: 'Folder to scan'
+  scan-path:  
+    description: 'Files/Folders to scan'
     required: true
     default: ''
-  log-file:  # id of input
+  exclude-path:  
+    description: 'Do not scan these folders/files'
+    required: false
+    default: ''
+  log-file:  
     description: 'Log Output'
     required: true
     default: ''
-  apikey:  # id of input
+  apikey:  
     description: 'APIKey'
     required: false
     default: ''
-  fail-build:  # id of input
+  fail-build:  
     description: 'Failed the build if found some issue'
     required: false
     default: 1
-  github-token:  # id of input
+  show-blocked-file-only:  
+    description: 'Show blocked files only'
+    required: false
+    default: 1
+  github-token:  
     description: 'To comment to a PR'
     required: false
     default: 1     

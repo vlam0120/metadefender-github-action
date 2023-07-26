@@ -20,11 +20,17 @@ parameters['url'] = scanURL
 const apikey = core.getInput('apikey', {required: false} );
 parameters['k'] = apikey
 
-const folder = core.getInput('folder', {required: true} );
-parameters['f'] = folder
+const scanPath = core.getInput('scan-path', {required: true} );
+parameters['f'] = scanPath
 
 const logfile = core.getInput('log-file', {required: true} );
 parameters['l'] = logfile
+
+const showBlockedFileOnly = core.getInput('show-blocked-file-only', {required: false} );
+parameters['b'] = showBlockedFileOnly
+
+const excludedPath = core.getInput('exclude-path', {required: false} );
+parameters['e'] = excludedPath
 
 const failBuild = core.getInput('fail-build', {required: true} );
 
