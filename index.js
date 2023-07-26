@@ -14,16 +14,16 @@ failBuild = 1
 
 
 const scanURL = core.getInput('scan-url', {required: true} );
-parameters['-url'] = scanURL
+parameters['url'] = scanURL
 
 const apikey = core.getInput('apikey', {required: false} );
-parameters['-k'] = apikey
+parameters['k'] = apikey
 
 const folder = core.getInput('folder', {required: true} );
-parameters['-f'] = folder
+parameters['f'] = folder
 
 const logfile = core.getInput('log-file', {required: true} );
-parameters['-l'] = logfile
+parameters['l'] = logfile
 
 const failBuild = core.getInput('fail-build', {required: true} );
 
@@ -40,11 +40,11 @@ function runScan(scanCommand){
 function buildScanCommand(){
     var scanCommand = 'java -jar scanner.jar '
     Object.entries(parameters).forEach(([key, value], index) => {
-        if ( key == "folder" ){
-            scanCommand += " --"+key+" '"+value+"'"
+        if ( key == "f" ){
+            scanCommand += " -"+key+" '"+value+"'"
         }
         else {
-        scanCommand += " --"+key+" "+value
+        scanCommand += " -"+key+" "+value
         }
     })
     return scanCommand
@@ -77,9 +77,7 @@ async function run(){
         //Check if it is a pull request
         var github_token = core.getInput('github-token');
         var context = github.context;
-        if (context.payload.pull_request == null) {
-            core.info('No pull request found.');
-        } else {
+        if (context.payload.pull_request != null) {
             var pull_request_number = context.payload.pull_request.number;
 
             const octokit = github.getOctokit(github_token);

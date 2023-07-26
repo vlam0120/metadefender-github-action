@@ -33,7 +33,6 @@ jobs:
             log-file: ${{ github.workspace }}/log.txt
             apikey: ${{ secrets.APIKey }}
             fail-build: 1
-            apikey: ${{ secrets.APIKey }}
         
         - name: check current folder again
           run: ls .
