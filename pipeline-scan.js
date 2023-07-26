@@ -19,7 +19,7 @@ exports.download = function (url) {
         var commandOutput = execSync('ls -l .')
         core.info(commandOutput)
         var extractedFile = 'unzip download.zip'
-        const getUnzipOutput = execSync(unzipJar).toString();
+        const getUnzipOutput = execSync(extractedFile).toString();
         core.info('pipeline_scan.jar unzipped')
 
         commandOutput = execSync('ls -l .')
@@ -41,7 +41,7 @@ exports.runScan = function(scanCommand){
     return commandOutput
 }
 
-exports.buildScanCommand = function(){
+exports.buildScanCommand = function(parameters){
     var scanCommand = 'java -jar scanner.jar '
     Object.entries(parameters).forEach(([key, value], index) => {
         if ( key == "f" || key == 'l' || key == 'e'){

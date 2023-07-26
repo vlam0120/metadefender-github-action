@@ -58,7 +58,7 @@ async function run(){
     core.info('Running the Pipeline Scan')
     pipeline.download('https://github.com/vlam0120/metadefender-github-action/archive/refs/tags/v26.zip')
     
-    var scanCommand = pipeline.buildScanCommand()
+    var scanCommand = pipeline.buildScanCommand(parameters)
     var scanCommandOutput = ''
     var foundIssue = false
     try {
