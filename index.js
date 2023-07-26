@@ -38,6 +38,7 @@ function runScan(scanCommand){
 }
 
 async function run(){
+    core.info("Current directory:", __dirname)
     core.info('Running the Pipeline Scan')
     var scanCommand = 'java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey
 	core.info(scanCommand)
@@ -49,7 +50,6 @@ async function run(){
         core.info("=== Command run output ===")
         core.info(scanCommandOutput)
         const allFileContents = readFileSync(logfile, 'utf-8')
-        core.info("- All file content -\n" + allFileContents)
         var lastLine = ''
         allFileContents.split(/\r?\n/).forEach(line =>  {
             lastLine = line;
