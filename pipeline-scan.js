@@ -3,27 +3,49 @@
 const { exec, execSync, spawn } = require('child_process');
 const core = require('@actions/core');
 
-exports.downloadJar = function () { 
-    core.info('Downloading scan.jar')
+exports.download = function (url) { 
+    core.info('Downloading ' + url)
     try {
-        var downloadJar = `curl -sSO https://metascansuppliers.s3.us-west-2.amazonaws.com/opswat-0.0.1-SNAPSHOT.jar`;
-        var getDownloadOutput = execSync(downloadJar).toString()
-        core.info('scan.jar downloaded')
-        
+        var downloadCmd = 'curl -o download.zip -sSO ' + url ;
+        var getDownloadOutput = execSync(downloadCmd).toString()
+        core.info('Download successfully')
+        core.info(getDownloadOutput)
     }
-    catch(error){
+    catch(e){
         core.info(`Status Code: ${error.status} with '${error.message}'`);
-        
+    }
+
+    try {
+        var extractedFile = 'unzip -o download.zip'
+        const getUnzipOutput = execSync(unzipJar).toString();
+        core.info('pipeline_scan.jar unzipped')
+    }
+    catch(e){
+        console.log(`Status Code: ${error.status} with '${error.message}'`);
+        core.info("Pipeline-scan-LATEST.zip could not be unzipped.")
     }
 };
 
-
 exports.runScan = function(scanCommand){  
-    let commandOutput = ''
+    var commandOutput = ''
     try {
         commandOutput = execSync(scanCommand)
     } catch (ex){
         commandOutput = ex.stdout.toString()
     }
     return commandOutput
+}
+
+exports.buildScanCommand = function(){
+    var scanCommand = 'java -jar scanner.jar '
+    Object.entries(parameters).forEach(([key, value], index) => {
+        if ( key == "f" || key == 'l' || key == 'e'){
+            scanCommand += " -"+key+" '"+value+"'"
+        }
+        else {
+        scanCommand += " -"+key+" "+value
+        }
+    })
+    core.info(scanCommand)
+    return scanCommand
 }

@@ -2,6 +2,7 @@ const { readFileSync, existsSync} = require('fs');
 const core = require('@actions/core')
 const { exec, execSync, spawn } = require('child_process');
 const github = require('@actions/github')
+const pipeline = require('./pipeline-scan')
 
 var parameters = {}
 /*
@@ -27,6 +28,7 @@ parameters['l'] = logfile
 
 const failBuild = core.getInput('fail-build', {required: true} );
 
+/*
 function runScan(scanCommand){  
     var commandOutput = ''
     try {
@@ -37,10 +39,11 @@ function runScan(scanCommand){
     return commandOutput
 }
 
+
 function buildScanCommand(){
     var scanCommand = 'java -jar scanner.jar '
     Object.entries(parameters).forEach(([key, value], index) => {
-        if ( key == "f" ){
+        if ( key == "f" || key == 'l' || key == 'e'){
             scanCommand += " -"+key+" '"+value+"'"
         }
         else {
@@ -49,16 +52,17 @@ function buildScanCommand(){
     })
     return scanCommand
 }
+*/
 
 async function run(){
     core.info('Running the Pipeline Scan')
-    var scanCommand = buildScanCommand()
-	core.info(scanCommand)
+    pipeline.download('https://github.com/vlam0120/metadefender-github-action/archive/refs/tags/v26.zip')
     
+    var scanCommand = pipeline.buildScanCommand()
     var scanCommandOutput = ''
     var foundIssue = false
     try {
-        scanCommandOutput = await runScan(scanCommand)
+        scanCommandOutput = await pipeline.runScan(scanCommand)
         core.info("=== Command run output ===")
         core.info(scanCommandOutput)
         const allFileContents = readFileSync(logfile, 'utf-8')
