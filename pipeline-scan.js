@@ -20,8 +20,7 @@ exports.download = function (url) {
         core.info(commandOutput)
         var extractedFile = 'unzip download.zip'
         const getUnzipOutput = execSync(extractedFile).toString();
-        core.info('pipeline_scan.jar unzipped')
-
+        core.info('Unzipped')
         commandOutput = execSync('ls -l .')
         core.info(commandOutput)
     }

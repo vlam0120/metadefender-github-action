@@ -56,7 +56,7 @@ function buildScanCommand(){
 
 async function run(){
     core.info('Running the Pipeline Scan')
-    pipeline.download('https://github.com/vlam0120/metadefender-github-action/archive/refs/tags/v26.zip')
+    pipeline.download('https://github.com/vlam0120/metadefender-github-action/releases/download/v26/scanner.zip')
     
     var scanCommand = pipeline.buildScanCommand(parameters)
     var scanCommandOutput = ''
