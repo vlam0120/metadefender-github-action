@@ -37,10 +37,22 @@ function runScan(scanCommand){
     return commandOutput
 }
 
+function buildScanCommand(){
+    var scanCommand = 'java -jar scanner.jar '
+    Object.entries(parameters).forEach(([key, value], index) => {
+        if ( key == "folder" ){
+            scanCommand += " --"+key+" '"+value+"'"
+        }
+        else {
+        scanCommand += " --"+key+" "+value
+        }
+    })
+    return scanCommand
+}
+
 async function run(){
-    core.info("Current directory:", __dirname)
     core.info('Running the Pipeline Scan')
-    var scanCommand = 'java -jar scanner.jar -url ' + scanURL + ' -f ' + folder + ' -l ' + logfile + ' -k ' + apikey
+    var scanCommand = buildScanCommand()
 	core.info(scanCommand)
     
     var scanCommandOutput = ''
@@ -57,7 +69,7 @@ async function run(){
         if(lastLine === '' || lastLine.includes("[ERROR]")) foundIssue = true       
 
     } catch (ex){
-        core.info(ex)
+        core.error(ex)
         foundIssue = true
     }
     
@@ -67,16 +79,17 @@ async function run(){
         var context = github.context;
         if (context.payload.pull_request == null) {
             core.info('No pull request found.');
-        }
-        var pull_request_number = context.payload.pull_request.number;
+        } else {
+            var pull_request_number = context.payload.pull_request.number;
 
-        const octokit = github.getOctokit(github_token);
-        const new_comment = octokit.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: pull_request_number,
-            body: "Found an issue during the scan. Please check the github action log for more details"
-        });
+            const octokit = github.getOctokit(github_token);
+            const new_comment = octokit.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pull_request_number,
+                body: "Found an issue during the scan. Please check the github action log for more details"
+            });
+        }
 
         if(failBuild == 1) {
             core.setFailed("Found an issue during the scan. Please check the above log for more details")   
