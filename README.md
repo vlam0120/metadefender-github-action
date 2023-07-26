@@ -22,8 +22,6 @@ To scan with MetaDefender Cloud, please sign up for an account and get the API k
 * Required
   * scan-url
     * http://\<ip\>/file or https://api.metadefender.com/v4/file
-  * apikey
-    * MetaDefender Core/Cloud API
   * scan-path
     * folder to scan
   * log-file
@@ -32,6 +30,8 @@ To scan with MetaDefender Cloud, please sign up for an account and get the API k
     * if one of the files is blocked, the build will be failed
    
 * Option
+  * apikey
+    * MetaDefender Core/Cloud API
   * exclude-path
     * do not scan these files, can specify multiple files/folders, e.g: /home/.git/,/home/test.txt    
   * show-blocked-files-only
