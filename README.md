@@ -21,7 +21,7 @@ To scan with MetaDefender Cloud, please sign up for an account and get the API k
 
 * Required
   * scan-url
-    * http://<ip>/file or https://api.metadefender.com/v4/file
+    * http://\<ip\>/file or https://api.metadefender.com/v4/file
   * apikey
     * MetaDefender Core/Cloud API
   * scan-path
