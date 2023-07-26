@@ -6,7 +6,7 @@ const core = require('@actions/core');
 exports.download = function (url) { 
     core.info('Downloading ' + url)
     try {
-        var downloadCmd = 'curl -o download.zip -sSO ' + url ;
+        var downloadCmd = 'curl -L ' + url + ' > download.zip';
         var getDownloadOutput = execSync(downloadCmd).toString()
         core.info('Download successfully')
         core.info(getDownloadOutput)
