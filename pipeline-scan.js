@@ -11,16 +11,21 @@ exports.download = function (url) {
         core.info('Download successfully')
         core.info(getDownloadOutput)
     }
-    catch(e){
+    catch(error){
         core.info(`Status Code: ${error.status} with '${error.message}'`);
     }
 
     try {
-        var extractedFile = 'unzip -o download.zip'
+        var commandOutput = execSync('ls -l .')
+        core.info(commandOutput)
+        var extractedFile = 'unzip download.zip'
         const getUnzipOutput = execSync(unzipJar).toString();
         core.info('pipeline_scan.jar unzipped')
+
+        commandOutput = execSync('ls -l .')
+        core.info(commandOutput)
     }
-    catch(e){
+    catch(error){
         console.log(`Status Code: ${error.status} with '${error.message}'`);
         core.info("Pipeline-scan-LATEST.zip could not be unzipped.")
     }
