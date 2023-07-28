@@ -77,6 +77,9 @@ jobs:
           uses: actions/setup-node@v1
           with:
             node-version: 16
+
+        - name: Download MetaDefender scanner
+          run: 'curl -LO https://github.com/vlam0120/metadefender-github-action/releases/download/v26/scanner.jar'  
             
         - name: Scan with MetaDefender
           uses: vlam0120/metadefender-github-action@36
