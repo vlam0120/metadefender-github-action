@@ -69,7 +69,7 @@ async function run(){
         
 		//Check if it is a pull request and have GitHub token to write comment
         var github_token = core.getInput('github-token');
-		if (github_token ! = '') {
+		if (github_token != '') {
 			var context = github.context;
 			if (context.payload.pull_request != null) {
 				var pull_request_number = context.payload.pull_request.number;
