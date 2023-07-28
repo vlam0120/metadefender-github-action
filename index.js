@@ -39,7 +39,7 @@ async function run(){
     core.info('Running the workflow Scan')
 	
 	//Download MetaDefender scanner
-    pipeline.download('https://github.com/vlam0120/metadefender-github-action/releases/download/v26/scanner.zip')
+    //pipeline.download('https://github.com/vlam0120/metadefender-github-action/releases/download/v26/scanner.zip')
     
     var scanCommand = pipeline.buildScanCommand(parameters)
     var scanCommandOutput = ''
