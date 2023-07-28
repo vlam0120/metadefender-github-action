@@ -43,11 +43,13 @@ exports.runScan = function(scanCommand){
 exports.buildScanCommand = function(parameters){
     var scanCommand = 'java -jar scanner.jar '
     Object.entries(parameters).forEach(([key, value], index) => {
-        if ( key == "f" || key == 'l' || key == 'e'){
-            scanCommand += " -"+key+" '"+value+"'"
-        }
-        else {
-        scanCommand += " -"+key+" "+value
+        if (value != '') {
+            if ( key == "f" || key == 'l' || key == 'e'){
+                scanCommand += " -"+key+" '"+value+"'"
+            }
+            else {
+            scanCommand += " -"+key+" "+value
+            }
         }
     })
     core.info(scanCommand)
