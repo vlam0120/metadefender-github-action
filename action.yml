@@ -28,7 +28,7 @@ inputs:
   show-blocked-file-only:  
     description: 'Show blocked files only'
     required: false
-    default: 1
+    default: 0
   rule:  
     description: 'Rule name'
     required: false

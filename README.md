@@ -7,7 +7,7 @@ Scan your source code with MetaDefender Core or MetaDefender Cloud
 To scan with MetaDefender Cloud, please sign up for an account and get the API key, set this API key in your repo setting: Settings > Secret and Variables, use the secret variable in the action file
 ```
         - name: Scan with MetaDefender
-          uses: vlam0120/metadefender-github-action@v32
+          uses: vlam0120/metadefender-github-action@v36
           with:
             scan-url: 'https://api.metadefender.com/v4/file'
             scan-path: ${{ github.workspace }}/files-to-scan
@@ -26,17 +26,33 @@ To scan with MetaDefender Cloud, please sign up for an account and get the API k
     * folder to scan
   * log-file
     * file path to generate scan log file
-  * fail-build
-    * if one of the files is blocked, the build will be failed
    
 * Option
   * apikey
     * MetaDefender Core/Cloud API
+	* default: empty
   * exclude-path
     * do not scan these files, can specify multiple files/folders, e.g: /home/.git/,/home/test.txt    
   * show-blocked-files-only
-    * just show blocked results in the log
-    * default: 1
+    * default: 0
+  * rule
+	* workflow name
+    * default: empty
+  * rule
+	* workflow name
+    * default: empty
+  * fail-build
+    * if one of the files is blocked, the build will be failed
+	* default: 1
+  * private-scan
+    * Use for MetaDefender Cloud only
+	* default: 0
+  * timeout
+    * Scan timeout (second) per file
+	* default: 60
+  * github-token
+    * github token use to comment on a pull request if there are issues found
+	* default: empty
 
 Sample YML file
 ```
@@ -63,7 +79,7 @@ jobs:
             node-version: 16
             
         - name: Scan with MetaDefender
-          uses: vlam0120/metadefender-github-action@v32
+          uses: vlam0120/metadefender-github-action@36
           with:
             scan-url: 'https://api.metadefender.com/v4/file'
             scan-path: ${{ github.workspace }}/files-to-scan
