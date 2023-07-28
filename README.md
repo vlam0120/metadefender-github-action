@@ -4,7 +4,7 @@ Scan your source code with MetaDefender Core or MetaDefender Cloud
 
 ## Usage
 
-To scan with MetaDefender Cloud, please sign up for an account and get the API key, set this key in the secret for the yml file 
+To scan with MetaDefender Cloud, please sign up for an account and get the API key, set this API key in your repo setting: Settings > Secret and Variables, use the secret variable in the action file
 ```
         - name: Scan with MetaDefender
           uses: vlam0120/metadefender-github-action@v32
