@@ -6,11 +6,11 @@ inputs:
     required: true
     default: 'https://api.metadefender.com/v4//file'
   scan-path:  
-    description: 'Files/Folders to scan'
+    description: 'Files/Folders to process'
     required: true
     default: ''
   exclude-path:  
-    description: 'Do not scan these folders/files'
+    description: 'Do not process these folders/files'
     required: false
     default: ''
   log-file:  
@@ -29,10 +29,22 @@ inputs:
     description: 'Show blocked files only'
     required: false
     default: 1
+  rule:  
+    description: 'Rule name'
+    required: false
+    default: ''
+  private-scan:  
+    description: 'Use for MetaDefender Cloud only'
+    required: false
+    default: 0
+ timeout:  
+    description: 'Scan timeout per file'
+    required: false
+    default: 60
   github-token:  
     description: 'To comment to a PR'
     required: false
-    default: 1     
+    default: ''    
 outputs:
   time: # id of output
     description: 'The time we greeted you'

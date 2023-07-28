@@ -5,17 +5,9 @@ const github = require('@actions/github')
 const pipeline = require('./pipeline-scan')
 
 var parameters = {}
-/*
-scanURL = "https://api.metadefender.com/v4/file"
-apikey = ""
-folder = "C:\\Exclude\\Test"
-logfile = "C:\\Test\\metadefender.log"
-failBuild = 1
-*/
-
 
 const scanURL = core.getInput('scan-url', {required: true} );
-parameters['url'] = scanURL
+parameters['u'] = scanURL
 
 const apikey = core.getInput('apikey', {required: false} );
 parameters['k'] = apikey
@@ -32,36 +24,21 @@ parameters['b'] = showBlockedFileOnly
 const excludedPath = core.getInput('exclude-path', {required: false} );
 parameters['e'] = excludedPath
 
+const rule = core.getInput('rule', {required: false} );
+parameters['r'] = rule
+
+const privateScan = core.getInput('private-scan', {required: false} );
+parameters['p'] = privateScan
+
+const timeout = core.getInput('timeout', {required: false} );
+parameters['t'] = timeout
+
 const failBuild = core.getInput('fail-build', {required: true} );
 
-/*
-function runScan(scanCommand){  
-    var commandOutput = ''
-    try {
-        commandOutput = execSync(scanCommand)
-    } catch (ex){
-        commandOutput = ex.stdout.toString()
-    }
-    return commandOutput
-}
-
-
-function buildScanCommand(){
-    var scanCommand = 'java -jar scanner.jar '
-    Object.entries(parameters).forEach(([key, value], index) => {
-        if ( key == "f" || key == 'l' || key == 'e'){
-            scanCommand += " -"+key+" '"+value+"'"
-        }
-        else {
-        scanCommand += " -"+key+" "+value
-        }
-    })
-    return scanCommand
-}
-*/
-
 async function run(){
-    core.info('Running the Pipeline Scan')
+    core.info('Running the workflow Scan')
+	
+	//Download MetaDefender scanner
     pipeline.download('https://github.com/vlam0120/metadefender-github-action/releases/download/v26/scanner.zip')
     
     var scanCommand = pipeline.buildScanCommand(parameters)
@@ -69,13 +46,18 @@ async function run(){
     var foundIssue = false
     try {
         scanCommandOutput = await pipeline.runScan(scanCommand)
-        core.info("=== Command run output ===")
+        
+		core.info("=== Command run output ===")
         core.info(scanCommandOutput)
+		
+		//Check the last line to see if there is any issues found
         const allFileContents = readFileSync(logfile, 'utf-8')
         var lastLine = ''
         allFileContents.split(/\r?\n/).forEach(line =>  {
             lastLine = line;
         });
+		
+		
         if(lastLine === '' || lastLine.includes("[ERROR]")) foundIssue = true       
 
     } catch (ex){
@@ -84,20 +66,23 @@ async function run(){
     }
     
     if (foundIssue) {
-        //Check if it is a pull request
+        
+		//Check if it is a pull request and have GitHub token to write comment
         var github_token = core.getInput('github-token');
-        var context = github.context;
-        if (context.payload.pull_request != null) {
-            var pull_request_number = context.payload.pull_request.number;
+		if (github_token ! = '') {
+			var context = github.context;
+			if (context.payload.pull_request != null) {
+				var pull_request_number = context.payload.pull_request.number;
 
-            const octokit = github.getOctokit(github_token);
-            const new_comment = octokit.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pull_request_number,
-                body: "Found an issue during the scan. Please check the github action log for more details"
-            });
-        }
+				const octokit = github.getOctokit(github_token);
+				const new_comment = octokit.rest.issues.createComment({
+					owner: context.repo.owner,
+					repo: context.repo.repo,
+					issue_number: pull_request_number,
+					body: "Found an issue during the scan. Please check the github action log for more details"
+				});
+			}
+		}
 
         if(failBuild == 1) {
             core.setFailed("Found an issue during the scan. Please check the above log for more details")   
