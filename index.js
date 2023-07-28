@@ -2,7 +2,7 @@ const { readFileSync, existsSync} = require('fs');
 const core = require('@actions/core')
 const { exec, execSync, spawn } = require('child_process');
 const github = require('@actions/github')
-const pipeline = require('./pipeline-scan')
+const pipeline = require('./utils')
 
 var parameters = {}
 

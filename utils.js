@@ -6,7 +6,7 @@ const core = require('@actions/core');
 exports.download = function (url) { 
     core.info('Downloading ' + url)
     try {
-        var downloadCmd = 'curl -L ' + url + ' > download.zip';
+        var downloadCmd = 'curl -L ' + url + ' > scanner.zip';
         var getDownloadOutput = execSync(downloadCmd).toString()
         core.info('Download successfully')
         core.info(getDownloadOutput)
@@ -16,17 +16,15 @@ exports.download = function (url) {
     }
 
     try {
-        var commandOutput = execSync('ls -l .')
         core.info(commandOutput)
-        var extractedFile = 'unzip download.zip'
+        var extractedFile = 'unzip scanner.zip'
         const getUnzipOutput = execSync(extractedFile).toString();
-        core.info('Unzipped')
-        commandOutput = execSync('ls -l .')
+        core.info('Unzipped')      
         core.info(commandOutput)
     }
     catch(error){
         console.log(`Status Code: ${error.status} with '${error.message}'`);
-        core.info("Pipeline-scan-LATEST.zip could not be unzipped.")
+        core.info("scanner.zip could not be unzipped.")
     }
 };
 
