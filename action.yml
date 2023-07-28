@@ -37,7 +37,7 @@ inputs:
     description: 'Use for MetaDefender Cloud only'
     required: false
     default: 0
- timeout:  
+  timeout:  
     description: 'Scan timeout per file'
     required: false
     default: 60
