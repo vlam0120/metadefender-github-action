@@ -30,13 +30,13 @@ To scan with MetaDefender Cloud, please sign up for an account and get the API k
 * Option
   * apikey
     * MetaDefender Core/Cloud API
-	* default: empty
+    * default: empty
   * exclude-path
     * do not scan these files, can specify multiple files/folders, e.g: /home/.git/,/home/test.txt    
   * show-blocked-files-only
     * default: 0
   * rule
-	* workflow name
+     * workflow name
     * default: empty
   * rule
 	* workflow name
@@ -51,7 +51,7 @@ To scan with MetaDefender Cloud, please sign up for an account and get the API k
     * Scan timeout (second) per file
 	* default: 60
   * github-token
-    * github token use to comment on a pull request if there are issues found
+    * github token is used to comment on a pull request if there are issues found
 	* default: empty
 
 Sample YML file
