@@ -7,7 +7,7 @@ Scan your source code with MetaDefender Core or MetaDefender Cloud
 To scan with MetaDefender Cloud, please sign up for an account and get the API key, set this API key in your repo setting: Settings > Secret and Variables, use the secret variable in the action file
 ```
         - name: Scan with MetaDefender
-          uses: vlam0120/metadefender-github-action@v36
+          uses: vlam0120/metadefender-github-action@v40
           with:
             scan-url: 'https://api.metadefender.com/v4/file'
             scan-path: ${{ github.workspace }}/files-to-scan
@@ -82,7 +82,7 @@ jobs:
           run: 'curl -LO https://github.com/vlam0120/metadefender-github-action/releases/download/v26/scanner.jar'  
             
         - name: Scan with MetaDefender
-          uses: vlam0120/metadefender-github-action@36
+          uses: vlam0120/metadefender-github-action@40
           with:
             scan-url: 'https://api.metadefender.com/v4/file'
             scan-path: ${{ github.workspace }}/files-to-scan
